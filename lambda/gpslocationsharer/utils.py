@@ -20,13 +20,7 @@ from .input_validation import (
 def format_response(event, http_code, body, headers=None):
     if isinstance(body, str):
         body = {"message": body}
-    if "origin" in event["headers"] and event["headers"]["origin"].startswith(DOMAIN_NAME):
-        domain_name = DOMAIN_NAME
-    else:
-        print(f'Invalid origin {event["headers"].get("origin")}')
-        http_code = 403
-        body = {"message": "Forbidden"}
-        domain_name = "*"
+    domain_name = "*"
     all_headers = {
         "Access-Control-Allow-Headers": "Content-Type",
         "Access-Control-Allow-Origin": domain_name,
@@ -73,7 +67,7 @@ def share_location_route(event):
     if not body:
         return format_response(
             event=event,
-            http_code=401,
+            http_code=403,
             body={"message": "Forbidden"},
         )
 

@@ -10,7 +10,7 @@ from gpslocationsharer.utils import (
 
 def lambda_handler(event, context):
     try:
-        print(json.dumps(event))
+        print(json.dumps(event.get("headers")))  # Only logging headers, I don't want to log people's GPS location passed in "body"
         result = route(event)
         print(result)
         return result
@@ -28,5 +28,4 @@ def lambda_handler(event, context):
 def route(event):
     if path_equals(event=event, method="POST", path="/share"):
         return share_location_route(event)
-
-    return format_response(event=event, http_code=404, body="No matching route found")
+    return format_response(event=event, http_code=403, body={"message": "Forbidden"})
