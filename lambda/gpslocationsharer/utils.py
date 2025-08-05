@@ -87,5 +87,5 @@ def share_location_route(event):
     return format_response(
         event=event,
         http_code=200,
-        body="Successfully shared location to server",
+        body=body["id"],
     )
